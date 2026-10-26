@@ -50,28 +50,29 @@ body { background: var(--bg); color: var(--ink); font-family: var(--font-body); 
 * { box-sizing: border-box; }
 /* The page itself never scrolls: the header and filters stay put and only the table box scrolls, so there is one scrollbar. */
 .wrap { max-width: 1480px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; height: 100%; min-height: 0; }
-header { display: flex; flex-direction: column; gap: 6px; }
-.about summary { cursor: pointer; font-size: 13px; font-weight: 700; color: var(--brand); }
-.about[open] summary { margin-bottom: 4px; }
-.eyebrow { margin: 0; font-size: 13px; font-weight: 700; color: var(--ink-soft); }
-h1 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(30px, 4vw, 44px); line-height: 1; text-wrap: balance; }
-.lede { margin: 0; max-width: 90ch; font-size: 14px; color: var(--ink-soft); }
-.legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+/* The top stays two short rows (title line, key line) so the table gets the screen. */
+header { display: flex; flex-direction: column; gap: 4px; }
+.titlerow { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 16px; }
+.about summary { cursor: pointer; font-weight: 700; color: var(--brand); }
+.about[open] { width: 100%; }
+.eyebrow { margin: 0; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+h1 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(20px, 2vw, 26px); line-height: 1.1; }
+.legend { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; font-size: 12px; font-weight: 600; color: var(--ink-soft); }
 .legend span { display: inline-flex; align-items: center; gap: 7px; }
 .sw { width: 16px; height: 16px; border-radius: 4px; flex: none; }
-.controls { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: end; background: var(--card); border-radius: 20px; padding: 14px 18px; }
-.field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.field label { font-size: 12px; font-weight: 700; color: var(--ink-soft); letter-spacing: 0.02em; }
-.field input, .field select { font: inherit; font-weight: 600; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 9px 12px; min-height: 44px; }
-.field input { width: 260px; max-width: 100%; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: end; background: var(--card); border-radius: 16px; padding: 10px 14px; }
+.field { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.field label, .field .lbl { font-size: 11px; font-weight: 700; color: var(--ink-soft); letter-spacing: 0.02em; }
+.field input, .field select { font: inherit; font-weight: 600; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 6px 10px; min-height: 36px; }
+.field input { width: 200px; max-width: 100%; }
 .field input:focus-visible, .field select:focus-visible, .toggle:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid var(--brand-soft); outline-offset: 2px; }
 .count { margin-left: auto; font-weight: 700; color: var(--ink-soft); align-self: center; }
 .shops { display: flex; flex-wrap: wrap; gap: 6px; }
-.toggle { font: inherit; font-size: 13px; font-weight: 700; color: var(--ink); background: var(--tint); border: 0; border-radius: 999px; padding: 8px 12px; min-height: 36px; cursor: pointer; }
+.toggle { font: inherit; font-size: 12px; font-weight: 700; color: var(--ink); background: var(--tint); border: 0; border-radius: 999px; padding: 6px 10px; min-height: 36px; cursor: pointer; }
 .toggle[aria-pressed="false"] { background: transparent; color: var(--ink-soft); text-decoration: line-through; }
 .tablebox { flex: 1 1 auto; min-height: 0; overflow: auto; background: var(--card); border-radius: 20px; }
 table { border-collapse: separate; border-spacing: 0; width: 100%; min-width: 1240px; font-variant-numeric: tabular-nums; }
-thead th { position: sticky; top: 0; z-index: 2; background: var(--tint); color: var(--ink); font-size: 12px; font-weight: 800; text-align: right; padding: 12px 10px; border-bottom: 1px solid var(--line); box-shadow: 0 1px 0 var(--line); white-space: nowrap; }
+thead th { position: sticky; top: 0; z-index: 2; background: var(--tint); color: var(--ink); font-size: 12px; font-weight: 800; text-align: right; padding: 9px 8px; border-bottom: 1px solid var(--line); box-shadow: 0 1px 0 var(--line); white-space: nowrap; }
 thead th small { display: block; font-weight: 600; color: var(--ink-soft); }
 thead th.game { text-align: left; }
 /* Game, our price and the gap stay pinned on the left while the shop columns scroll sideways. */
@@ -80,7 +81,7 @@ th.game, td.game { left: 0; text-align: left; width: 230px; min-width: 230px; ma
 th.c-ours, td.c-ours { left: 230px; width: 96px; min-width: 96px; }
 th.c-gap, td.c-gap { left: 326px; min-width: 110px; box-shadow: 2px 0 0 var(--line); }
 thead th.game, thead th.c-ours, thead th.c-gap { z-index: 3; background: var(--tint); }
-td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: right; vertical-align: top; white-space: nowrap; background: var(--card); }
+td { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: right; vertical-align: top; white-space: nowrap; background: var(--card); }
 tr.alt td { background: var(--row-alt); }
 td.game { white-space: normal; }
 .title { font-weight: 800; color: var(--ink); background: none; border: 0; padding: 0; font: inherit; font-weight: 800; text-align: left; cursor: pointer; line-height: 1.25; }
@@ -88,13 +89,13 @@ td.game { white-space: normal; }
 .meta { font-size: 12px; color: var(--ink-soft); margin-top: 2px; }
 .price { font-weight: 700; }
 .ours { font-weight: 800; font-size: 15px; }
-.cell { display: inline-flex; flex-direction: column; align-items: flex-end; gap: 2px; padding: 4px 8px; border-radius: 8px; min-width: 64px; text-decoration: none; color: inherit; }
+.cell { display: inline-flex; flex-direction: column; align-items: flex-end; gap: 1px; padding: 4px 8px; border-radius: 8px; min-width: 60px; max-width: 104px; text-decoration: none; color: inherit; }
 a.cell:hover { text-decoration: underline; }
 .cell.cheaper { background: var(--cheaper-bg); color: var(--cheaper-fg); }
 .cell.dearer { background: var(--dearer-bg); color: var(--dearer-fg); }
 .cell.same { background: var(--same-bg); color: var(--same-fg); }
 .cell.other { background: var(--other-bg); color: var(--other-fg); }
-.ed { font-size: 11px; font-weight: 700; opacity: 0.85; }
+.ed { font-size: 11px; font-weight: 700; opacity: 0.85; max-width: 88px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .none { color: var(--ink-soft); opacity: 0.5; }
 .pill { display: inline-block; min-width: 58px; text-align: center; padding: 4px 9px; border-radius: 999px; font-weight: 800; font-size: 13px; color: #ffffff; }
 .pill.cheaper { background: var(--pill-cheaper); }
@@ -117,25 +118,27 @@ tr.details a { color: var(--brand); }
   th.game, td.game { width: 150px; min-width: 150px; max-width: 150px; }
   th.c-ours, td.c-ours { left: 150px; width: 72px; min-width: 72px; }
   th.c-gap, td.c-gap { left: 222px; min-width: 90px; }
-  .lede { display: none; }
+  .field input, .field select, .toggle { min-height: 44px; }
 }
 </style>
 
 <div class="wrap">
   <header>
-    <p class="eyebrow">Hidden Gem · 243 active games · prices collected live on 26 October 2026</p>
-    <h1>Every game, us against every shop</h1>
-    <p class="lede">One row per game. The gap column is our price against the cheapest Swiss shop; plus means we are dearer. Shop cells are coloured against our price. Click a game name for the sources and notes.</p>
+    <div class="titlerow">
+      <h1>Every game, us against every shop</h1>
+      <p class="eyebrow">Hidden Gem · 243 active games · prices collected 26 October 2026 · click a game name for sources and notes</p>
+    </div>
     <div class="legend" aria-label="Colour key">
       <span><i class="sw" style="background: var(--cheaper-bg); outline: 1px solid var(--cheaper-fg)"></i>Shop is cheaper than us</span>
       <span><i class="sw" style="background: var(--dearer-bg); outline: 1px solid var(--dearer-fg)"></i>Shop is dearer than us</span>
       <span><i class="sw" style="background: var(--same-bg); outline: 1px solid var(--same-fg)"></i>Same price (±0.50)</span>
       <span><i class="sw" style="background: var(--other-bg); outline: 1px solid var(--other-fg)"></i>Different language edition</span>
-    </div>
+      <span><i class="sw pill d2" style="width: auto; height: auto; font-size: 10px; padding: 1px 6px; min-width: 0; font-style: normal">+%</i>Gap: our price vs the cheapest Swiss shop, plus means we are dearer</span>
     <details class="about">
       <summary>About the data</summary>
       <p class="note">Swiss shops: Galaxus, Orell Füssli (checked for 62 games only; an empty cell there means not checked), World of Games, Spielezar, Wellplayed, Kabooom. Amazon.de is shown as a Swiss visitor sees it, converted at 1 EUR = 0.9243 CHF, before import charges; it does not count as a Swiss shop in the gap column. Ex Libris and brettspiel-angebote.de could not be collected. Publisher list prices are the publisher's own shop or RRP, converted to CHF where needed, and US prices are for the English edition. Games are matched by EAN or article number first, then by exact name in the same language. Prices collected on 26 October 2026.</p>
     </details>
+    </div>
   </header>
 
   <div class="controls">
@@ -163,7 +166,7 @@ tr.details a { color: var(--brand); }
         <option value="shops">Most shops carrying it</option>
       </select>
     </div>
-    <div class="field"><span class="field" style="font-size: 12px; font-weight: 700; color: var(--ink-soft)">Shops</span><div class="shops" id="shops"></div></div>
+    <div class="field"><span class="lbl">Shops</span><div class="shops" id="shops"></div></div>
     <div class="count" id="count"></div>
   </div>
 
@@ -187,6 +190,7 @@ tr.details a { color: var(--brand); }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function chf(n) { return n == null ? '' : n.toFixed(2); }
   function edition(lang) { return LANGNAME[lang] || (lang || '').split('/').join(', '); }
+  function shortEd(s) { return s === 'as ours (name match)' ? 'name match' : s; }
 
   // Per game: cheapest Swiss shop and our gap to it.
   D.games.forEach(function (g) {
@@ -216,7 +220,7 @@ tr.details a { color: var(--brand); }
   }
   function shopCell(e, our) {
     if (!e) return '<span class="none">–</span>';
-    var inner = '<span class="price">' + chf(e.p) + '</span>' + (e.ed !== 'same box' ? '<span class="ed">' + esc(e.ed) + '</span>' : '');
+    var inner = '<span class="price">' + chf(e.p) + '</span>' + (e.ed !== 'same box' ? '<span class="ed">' + esc(shortEd(e.ed)) + '</span>' : '');
     var cls = 'cell ' + cellClass(e, our);
     return e.url ? '<a class="' + cls + '" href="' + esc(e.url) + '" target="_blank" rel="noopener" title="' + esc(tip(e)) + '">' + inner + '</a>'
                  : '<span class="' + cls + '" title="' + esc(tip(e)) + '">' + inner + '</span>';
@@ -224,7 +228,7 @@ tr.details a { color: var(--brand); }
   function pubCell(p, our) {
     if (!p) return '<span class="none">–</span>';
     var e = { p: p.p, diff: p.diff, ed: p.ed, url: p.url, match: null, avail: null, eur: null, note: (p.cur && p.cur !== 'CHF' ? p.cur + ' ' + p.orig.toFixed(2) + ' · ' : '') + p.src + (p.kind ? ' (' + p.kind + ')' : '') };
-    var inner = '<span class="price">' + chf(p.p) + '</span><span class="ed">' + esc(p.ed !== 'same box' ? p.ed : p.src) + '</span>';
+    var inner = '<span class="price">' + chf(p.p) + '</span>' + (p.diff ? '<span class="ed">' + esc(shortEd(p.ed)) + '</span>' : '');
     var cls = 'cell ' + cellClass(e, our);
     return p.url ? '<a class="' + cls + '" href="' + esc(p.url) + '" target="_blank" rel="noopener" title="' + esc(e.note) + '">' + inner + '</a>'
                  : '<span class="' + cls + '" title="' + esc(e.note) + '">' + inner + '</span>';

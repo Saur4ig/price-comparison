@@ -45,11 +45,10 @@
   color-scheme: dark;
 }
 body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 14px; line-height: 1.45;
-  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 16px 12px;
-  height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)); overflow: hidden; }
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 16px 40px; }
 * { box-sizing: border-box; }
-/* The page itself never scrolls: the header and filters stay put and only the table box scrolls, so there is one scrollbar. */
-.wrap { max-width: 1480px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; height: 100%; min-height: 0; }
+/* The page scrolls as one. Only the table header is pinned, by the scroll handler at the bottom, once the table reaches the top of the window. */
+.wrap { max-width: 1480px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
 /* The top stays two short rows (title line, key line) so the table gets the screen. */
 header { display: flex; flex-direction: column; gap: 4px; }
 .titlerow { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 16px; }
@@ -71,7 +70,8 @@ h1 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: c
 .shops { display: flex; flex-wrap: wrap; gap: 6px; }
 .toggle { font: inherit; font-size: 12px; font-weight: 700; color: var(--ink); background: var(--tint); border: 0; border-radius: 999px; padding: 6px 10px; min-height: 36px; cursor: pointer; }
 .toggle[aria-pressed="false"] { background: transparent; color: var(--ink-soft); text-decoration: line-through; }
-.tablebox { flex: 1 1 auto; min-height: 0; overflow: auto; background: var(--card); border-radius: 20px; }
+.tablebox { overflow-x: auto; background: var(--card); border-radius: 20px; }
+thead { position: relative; z-index: 4; will-change: transform; }
 table { border-collapse: separate; border-spacing: 0; width: 100%; min-width: 1240px; font-variant-numeric: tabular-nums; }
 thead th { position: sticky; top: 0; z-index: 2; background: var(--tint); color: var(--ink); font-size: 12px; font-weight: 800; text-align: right; padding: 9px 8px; border-bottom: 1px solid var(--line); box-shadow: 0 1px 0 var(--line); white-space: nowrap; }
 thead th small { display: block; font-weight: 600; color: var(--ink-soft); }
@@ -296,7 +296,24 @@ tr.details a { color: var(--brand); }
     });
     document.getElementById('body').innerHTML = html || '<tr><td class="empty" colspan="' + cols + '">No game matches this filter.</td></tr>';
     document.getElementById('count').textContent = rows.length + ' of ' + D.games.length + ' games';
+    pinHeader();
   }
+
+  // Keeps the header row at the top of the window while the table is scrolled under it. A sticky header would pin to the
+  // sideways-scrolling box instead of the window, so the header is moved by hand.
+  var box = document.querySelector('.tablebox');
+  var thead = document.querySelector('thead');
+  var ticking = false;
+  function pinHeader() {
+    var r = box.getBoundingClientRect();
+    var past = -r.top;
+    var max = r.height - thead.offsetHeight;
+    var shift = past > 0 ? Math.min(past, Math.max(max, 0)) : 0;
+    thead.style.transform = shift ? 'translateY(' + shift + 'px)' : '';
+  }
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; pinHeader(); }); } }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
 
   var shopBox = document.getElementById('shops');
   SHOPS.forEach(function (s) {

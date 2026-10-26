@@ -64,7 +64,8 @@ h1 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: c
 .field { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .field label, .field .lbl { font-size: 11px; font-weight: 700; color: var(--ink-soft); letter-spacing: 0.02em; }
 .field input, .field select { font: inherit; font-weight: 600; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 6px 10px; min-height: 36px; }
-.field input { width: 200px; max-width: 100%; }
+.field input { width: 180px; max-width: 100%; }
+.field select { max-width: 230px; }
 .field input:focus-visible, .field select:focus-visible, .toggle:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid var(--brand-soft); outline-offset: 2px; }
 .count { margin-left: auto; font-weight: 700; color: var(--ink-soft); align-self: center; }
 .shops { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -127,6 +128,7 @@ tr.details a { color: var(--brand); }
     <div class="titlerow">
       <h1>Every game, us against every shop</h1>
       <p class="eyebrow">Hidden Gem · 243 active games · prices collected 26 October 2026 · click a game name for sources and notes</p>
+      <span class="count" id="count"></span>
     </div>
     <div class="legend" aria-label="Colour key">
       <span><i class="sw" style="background: var(--cheaper-bg); outline: 1px solid var(--cheaper-fg)"></i>Shop is cheaper than us</span>
@@ -166,8 +168,7 @@ tr.details a { color: var(--brand); }
         <option value="shops">Most shops carrying it</option>
       </select>
     </div>
-    <div class="field"><span class="lbl">Shops</span><div class="shops" id="shops"></div></div>
-    <div class="count" id="count"></div>
+    <div class="field"><span class="lbl">Shops shown</span><div class="shops" id="shops"></div></div>
   </div>
 
   <div class="tablebox">
@@ -241,7 +242,7 @@ tr.details a { color: var(--brand); }
   }
 
   function renderHead() {
-    var h = '<th class="game">Game<small>edition · EAN</small></th><th class="c-ours">Hidden Gem<small>our price</small></th>'
+    var h = '<th class="game">Game<small>edition · publisher</small></th><th class="c-ours">Hidden Gem<small>our price</small></th>'
           + '<th class="c-gap">Us vs cheapest CH<small>+ means we are dearer</small></th><th>Cheapest in CH<small>shop</small></th>';
     SHOPS.forEach(function (s) { if (!hidden[s.k]) h += '<th>' + esc(s.n) + '<small>' + counts[s.k] + ' games</small></th>'; });
     h += '<th>Publisher list<small>' + pubCount + ' games</small></th>';
@@ -250,6 +251,7 @@ tr.details a { color: var(--brand); }
 
   function detailsRow(g, cols) {
     var items = [];
+    if (g.ean) items.push('<li><b>EAN ' + esc(g.ean) + '</b> · <span>' + esc(edition(g.lang)) + (g.v ? ' · ' + esc(g.v) : '') + '</span></li>');
     SHOPS.forEach(function (s) {
       var e = g.shops[s.k];
       if (!e) return;
@@ -284,7 +286,7 @@ tr.details a { color: var(--brand); }
     var cols = 5 + visible.length;
     var html = '';
     rows.forEach(function (g, i) {
-      html += '<tr' + (i % 2 ? ' class="alt"' : '') + '><td class="game"><button class="title" type="button" data-h="' + esc(g.h) + '" aria-expanded="' + (open[g.h] ? 'true' : 'false') + '">' + esc(g.t) + '</button><div class="meta">' + esc(edition(g.lang)) + (g.v ? ' · ' + esc(g.v) : '') + (g.ean ? ' · ' + esc(g.ean) : '') + '</div></td>';
+      html += '<tr' + (i % 2 ? ' class="alt"' : '') + '><td class="game"><button class="title" type="button" data-h="' + esc(g.h) + '" aria-expanded="' + (open[g.h] ? 'true' : 'false') + '">' + esc(g.t) + '</button><div class="meta">' + esc(edition(g.lang)) + (g.v ? ' · ' + esc(g.v) : '') + '</div></td>';
       html += '<td class="c-ours"><span class="ours">' + chf(g.our) + '</span></td>';
       html += '<td class="c-gap">' + gapPill(g) + '</td>';
       html += '<td>' + (g.best ? '<span class="price">' + chf(g.best.p) + '</span><div class="best">' + esc(g.best.shop) + '</div>' : '<span class="none">–</span>') + '</td>';

@@ -65,9 +65,9 @@ h1 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: c
 .shops { display: flex; flex-wrap: wrap; gap: 6px; }
 .toggle { font: inherit; font-size: 13px; font-weight: 700; color: var(--ink); background: var(--tint); border: 0; border-radius: 999px; padding: 8px 12px; min-height: 36px; cursor: pointer; }
 .toggle[aria-pressed="false"] { background: transparent; color: var(--ink-soft); text-decoration: line-through; }
-.tablebox { overflow-x: auto; background: var(--card); border-radius: 20px; }
+.tablebox { overflow: auto; max-height: calc(100dvh - 24px); background: var(--card); border-radius: 20px; }
 table { border-collapse: separate; border-spacing: 0; width: 100%; min-width: 1240px; font-variant-numeric: tabular-nums; }
-thead th { position: sticky; top: 0; z-index: 2; background: var(--tint); color: var(--ink); font-size: 12px; font-weight: 800; text-align: right; padding: 12px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+thead th { position: sticky; top: 0; z-index: 2; background: var(--tint); color: var(--ink); font-size: 12px; font-weight: 800; text-align: right; padding: 12px 10px; border-bottom: 1px solid var(--line); box-shadow: 0 1px 0 var(--line); white-space: nowrap; }
 thead th small { display: block; font-weight: 600; color: var(--ink-soft); }
 thead th.game { text-align: left; }
 th.game, td.game { position: sticky; left: 0; z-index: 1; text-align: left; min-width: 230px; max-width: 300px; background: var(--card); }
